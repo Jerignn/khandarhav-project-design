@@ -1389,6 +1389,8 @@
   content: '';
   position: absolute;
   inset: -40px; /* bigger than the section so the blur has no soft edges */
+  width: auto; /* undo sizes a section may set on its own ::before (like the hero glow) */
+  height: auto;
   z-index: -2;
   background: var(--photo) center / cover no-repeat;
   filter: blur(var(--photo-blur, 8px)) saturate(1.15); /* a section can set --photo-blur for a sharper photo */
@@ -1400,6 +1402,7 @@
   content: '';
   position: absolute;
   inset: 0;
+  height: auto;
   z-index: -1;
   background: linear-gradient(180deg, rgba(11, 18, 27, 0.9), rgba(11, 18, 27, 0.55) 50%, rgba(11, 18, 27, 0.9));
 }
@@ -1896,6 +1899,6 @@
 .d2 :is(.d2-page-hero, #d2-id).d2-photo-bg::after {
   height: auto;
   background:
-    linear-gradient(90deg, rgba(11, 18, 27, 0.94) 25%, rgba(11, 18, 27, 0.7) 70%, rgba(11, 18, 27, 0.55)),
+    linear-gradient(90deg, rgba(11, 18, 27, 0.9) 20%, rgba(11, 18, 27, 0.62) 65%, rgba(11, 18, 27, 0.45)),
     linear-gradient(transparent 60%, var(--bg));
 }
