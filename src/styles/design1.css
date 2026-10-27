@@ -47,8 +47,84 @@
   margin-bottom: 1.25rem;
 }
 
+/* Buttons — calm, warm motion: a dark "ink" fill rises from the bottom, the button lifts
+   a little with a soft accent glow, the arrow nudges forward, and it presses in on click. */
+.d1 {
+  --ease: cubic-bezier(0.22, 1, 0.36, 1); /* gentle ease-out, used by every button */
+}
+
 .d1 .btn-primary {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   border-radius: 999px;
+  box-shadow: 0 6px 16px -8px var(--accent);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), background 0.4s;
+}
+
+.d1 .btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--ink);
+  border-radius: inherit;
+  transform: translateY(101%);
+  transition: transform 0.45s var(--ease);
+}
+
+.d1 .btn-primary:hover {
+  filter: none;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px -12px var(--accent);
+}
+
+.d1 .btn-primary:hover::before {
+  transform: translateY(0);
+}
+
+.d1 .btn-primary:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 0.1s;
+}
+
+.d1 .btn .arrow {
+  transition: transform 0.35s var(--ease);
+}
+
+/* Keyboard users get a clear ring in the page accent */
+.d1 .btn:focus-visible,
+.d1-readmore:focus-visible,
+.d1-textlink:focus-visible,
+.d1-menu:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* "Reduce motion" (base.css) turns every transition off. These button effects are small,
+   in-place hover feedback, not movement across the screen, so they stay on — gentler. */
+@media (prefers-reduced-motion: reduce) {
+  .d1 .btn-primary,
+  .d1 .btn-primary::before,
+  .d1 .btn .arrow,
+  .d1 .d1-textlink,
+  .d1 .d1-readmore,
+  .d1 .d1-menu {
+    transition-duration: 0.3s !important;
+    transition-property: transform, background-size, background, color, box-shadow !important;
+    transition-timing-function: var(--ease) !important;
+  }
+}
+
+/* On dark backgrounds (coupon, footer) the ink fill would vanish, so fill with cream instead */
+.d1-coupon .btn-primary::before,
+.d1-footer .btn-primary::before {
+  background: #f4efe6;
+}
+
+.d1-coupon .btn-primary:hover,
+.d1-footer .btn-primary:hover {
+  color: var(--ink);
 }
 
 /* One vertical rhythm for every section (same as the service-page blocks) */
@@ -191,11 +267,19 @@
 
 .d1-menu {
   display: none;
-  background: none;
+  background: linear-gradient(var(--ink), var(--ink)) bottom / 100% 0 no-repeat;
   border: 1px solid var(--ink);
   border-radius: 999px;
   padding: 0.4rem 1rem;
   font-size: 0.85rem;
+  transition: background-size 0.4s var(--ease), color 0.3s;
+}
+
+/* Same rising fill as the main buttons */
+.d1-menu:hover,
+.d1-menu[aria-expanded='true'] {
+  background-size: 100% 100%;
+  color: #f4efe6;
 }
 
 /* Hero */
@@ -237,10 +321,20 @@
   margin-top: 2rem;
 }
 
+/* Text links: on hover the underline slides out to the right, then redraws from the left
+   in the accent color (two stacked underlines, animated with background-size) */
 .d1-textlink {
+  padding-bottom: 3px;
   font-weight: 600;
-  border-bottom: 1.5px solid currentColor;
-  padding-bottom: 2px;
+  background:
+    linear-gradient(var(--accent), var(--accent)) left bottom / 0 1.5px no-repeat,
+    linear-gradient(currentColor, currentColor) right bottom / 100% 1.5px no-repeat;
+  transition: background-size 0.45s var(--ease), color 0.3s;
+}
+
+.d1-textlink:hover {
+  color: var(--accent);
+  background-size: 100% 1.5px, 0 1.5px;
 }
 
 .d1-hero-photo {
@@ -596,12 +690,19 @@
   border: 1.5px solid #f4efe6;
   border-radius: 999px;
   font-weight: 600;
-  transition: background 0.2s, color 0.2s;
+  /* Cream fill that rises from the bottom, like the main buttons */
+  background: linear-gradient(#f4efe6, #f4efe6) bottom / 100% 0 no-repeat;
+  transition: background-size 0.45s var(--ease), color 0.3s, transform 0.35s var(--ease);
 }
 
 .d1-readmore:hover {
-  background: #f4efe6;
+  background-size: 100% 100%;
   color: var(--sage);
+  transform: translateY(-2px);
+}
+
+.d1-readmore:active {
+  transform: scale(0.97);
 }
 
 /* Blurred photo backgrounds (photos from kandrhvac.com).
@@ -1168,7 +1269,7 @@
   border-top: 1px solid var(--ink);
 }
 
-.d1-svc-steps li {
+.d1-svc-steps > li {
   display: grid;
   grid-template-columns: 48px 1fr;
   gap: 1rem;
@@ -1280,6 +1381,12 @@
     left: 1rem;
   }
 
+  /* Stacked hero: a wider, shorter arch so the photo doesn't fill a whole tablet screen */
+  .d1-hero-photo img {
+    aspect-ratio: 4 / 3;
+    border-radius: 160px 160px 12px 12px;
+  }
+
 
   .d1-coupon {
     grid-template-columns: 1fr;
@@ -1296,11 +1403,72 @@
   }
 }
 
-@media (max-width: 520px) {
+/* Phones */
+@media (max-width: 600px) {
+  /* Service tiles become a swipeable row (one tile and a peek of the next)
+     instead of four full-height tiles stacked on top of each other */
   .d1-tiles {
-    grid-template-columns: 1fr;
+    display: flex;
+    gap: 0.9rem;
+    margin-inline: -1.25rem;
+    padding: 0 1.25rem 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1.25rem;
+    scrollbar-width: none;
   }
 
+  .d1-tiles::-webkit-scrollbar {
+    display: none;
+  }
+
+  .d1-tile {
+    flex: 0 0 72%;
+    scroll-snap-align: start;
+  }
+
+  /* Footer: brand on top, Services + Company side by side, contact card below */
+  .d1-footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 1.25rem;
+  }
+
+  .d1-footer-brand,
+  .d1-footer-card {
+    grid-column: 1 / -1;
+  }
+
+  .d1-footer ul {
+    font-size: 0.86rem;
+  }
+
+  .d1-footer-bottom .d1-container {
+    flex-direction: column;
+  }
+
+  /* Hero: slightly smaller headline and tighter spacing on small screens */
+  .d1-hero h1 {
+    font-size: clamp(2rem, 9vw, 2.6rem);
+  }
+
+  .d1-hero-grid {
+    gap: 2rem;
+  }
+
+  .d1-bigphone {
+    font-size: 1.9rem;
+  }
+}
+
+/* Touch screens have no hover, so always show the Our Work captions */
+@media (hover: none) {
+  .d1-gallery-item figcaption {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 520px) {
   .d1-topbar-inner > span {
     display: none;
   }

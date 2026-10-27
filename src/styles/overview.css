@@ -6,11 +6,45 @@
 }
 
 .ov-head {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: flex;
   align-items: center;
   gap: 2.5rem;
-  padding: 2rem clamp(1.25rem, 4vw, 3.5rem);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2.25rem clamp(1.25rem, 4vw, 3.5rem);
+}
+
+/* Thin warm-to-cool line along the bottom of the header */
+.ov-head::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--rust), #e0a35b 40%, #4fb3d9);
+  opacity: 0.8;
+}
+
+.ov-head-glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(40% 140% at 0% 100%, rgba(186, 68, 38, 0.28), transparent 70%),
+    radial-gradient(40% 140% at 100% 0%, rgba(79, 179, 217, 0.2), transparent 70%);
+}
+
+.ov-pill {
+  display: inline-block;
+  margin-left: 0.6rem;
+  padding: 0.15rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: #e8e4dd;
 }
 
 .ov-head img {
@@ -36,20 +70,69 @@
   color: var(--rust);
 }
 
-/* Panels have a fixed size — they never grow or shift */
+/* Panels have a fixed size — they never grow, only lift slightly on hover */
 .ov-split {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: clamp(1rem, 2vw, 1.75rem);
   min-height: 620px;
+  padding: clamp(1rem, 3vw, 2.5rem) clamp(1.25rem, 4vw, 3.5rem);
 }
 
+/* Each option is a card: rounded corners, a border in its design's color and a lift on hover */
 .ov-panel {
   position: relative;
   display: flex;
   align-items: flex-end;
-  padding: clamp(1.5rem, 4vw, 3.5rem);
+  padding: clamp(1.75rem, 4vw, 3.5rem);
   overflow: hidden;
   isolation: isolate;
+  border-radius: 20px;
+  border: 1px solid var(--card-line);
+  box-shadow: 0 20px 50px -25px rgba(0, 0, 0, 0.8);
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.5s;
+}
+
+/* Thin inner frame, like a mat around a print */
+.ov-panel::after {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border: 1px solid var(--card-frame);
+  border-radius: 12px;
+  pointer-events: none;
+  transition: border-color 0.5s;
+}
+
+.ov-panel:hover,
+.ov-panel:focus-visible {
+  transform: translateY(-6px);
+  border-color: var(--card-glow);
+  box-shadow:
+    0 30px 60px -25px rgba(0, 0, 0, 0.9),
+    0 0 0 1px var(--card-glow),
+    0 0 40px -10px var(--card-glow);
+}
+
+.ov-panel:hover::after,
+.ov-panel:focus-visible::after {
+  border-color: var(--card-glow);
+}
+
+.ov-panel-01 {
+  --card-line: rgba(244, 239, 230, 0.35);
+  --card-frame: rgba(36, 33, 29, 0.18);
+  --card-glow: rgba(186, 68, 38, 0.7);
+}
+
+.ov-panel-02 {
+  --card-line: rgba(79, 179, 217, 0.3);
+  --card-frame: rgba(79, 179, 217, 0.22);
+  --card-glow: rgba(79, 179, 217, 0.7);
 }
 
 /* The image is the only thing that animates */
@@ -162,18 +245,137 @@
   background: var(--rust);
   color: #fff;
   font-weight: 600;
-  transition: background 0.2s;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: 0 0 0 rgba(186, 68, 38, 0);
+  transition:
+    background 0.3s,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.ov-panel:hover .ov-cta {
+/* Light sheen that sweeps across the button on hover */
+.ov-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+  transform: translateX(-120%);
+}
+
+.ov-cta .arrow {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ov-panel:hover .ov-cta,
+.ov-panel:focus-visible .ov-cta {
   background: var(--rust-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px -10px rgba(186, 68, 38, 0.8);
+}
+
+.ov-panel:hover .ov-cta::before,
+.ov-panel:focus-visible .ov-cta::before {
+  transform: translateX(120%);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ov-panel:hover .ov-cta .arrow,
+.ov-panel:focus-visible .ov-cta .arrow {
+  transform: translateX(5px);
+}
+
+.ov-panel:active .ov-cta {
+  transform: translateY(-1px);
+}
+
+/* Palette + typeface preview inside each panel */
+.ov-specimen {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ov-swatches {
+  display: flex;
+}
+
+.ov-swatches i {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  margin-left: -6px;
+  transition: transform 0.3s;
+}
+
+.ov-swatches i:first-child {
+  margin-left: 0;
+}
+
+.ov-panel:hover .ov-swatches i {
+  transform: translateY(-3px);
+}
+
+.ov-panel:hover .ov-swatches i:nth-child(2) {
+  transition-delay: 0.05s;
+}
+
+.ov-panel:hover .ov-swatches i:nth-child(3) {
+  transition-delay: 0.1s;
+}
+
+.ov-panel:hover .ov-swatches i:nth-child(4) {
+  transition-delay: 0.15s;
+}
+
+.ov-type {
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+
+.ov-type b {
+  font-size: 1.15rem;
+  margin-right: 0.2rem;
+}
+
+.ov-panel-01 .ov-type b {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
+}
+
+.ov-panel-02 .ov-type b {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.ov-panel-02 .ov-type {
+  font-family: 'JetBrains Mono', monospace;
 }
 
 /* Closing section */
 .ov-closing {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   padding: clamp(4rem, 8vw, 6.5rem) clamp(1.25rem, 4vw, 3.5rem);
   background: #161616;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Oversized outlined monogram behind the closing copy */
+.ov-closing-mark {
+  position: absolute;
+  right: -2rem;
+  bottom: -3.5rem;
+  z-index: -1;
+  font: 700 clamp(10rem, 24vw, 22rem) / 1 'Fraunces', Georgia, serif;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.07);
+  pointer-events: none;
+  user-select: none;
 }
 
 .ov-closing-inner {
@@ -222,6 +424,7 @@
 }
 
 .ov-promises li {
+  transition: padding-left 0.3s, color 0.3s;
   display: flex;
   align-items: center;
   gap: 0.9rem;
@@ -240,6 +443,11 @@
   font-size: 0.75rem;
 }
 
+.ov-promises li:hover {
+  padding-left: 0.5rem;
+  color: #f0c9a8;
+}
+
 @media (max-width: 800px) {
   .ov-head {
     flex-direction: column;
@@ -254,5 +462,20 @@
 
   .ov-panel {
     min-height: 520px;
+  }
+
+  .ov-panel::after {
+    inset: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ov-swatches i,
+  .ov-promises li,
+  .ov-cta,
+  .ov-cta::before,
+  .ov-cta .arrow,
+  .ov-panel {
+    transition: none;
   }
 }

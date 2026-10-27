@@ -310,7 +310,14 @@ a:hover > .arrow {
   font-family: system-ui, sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
-  transition: transform 0.2s, background 0.2s;
+  transition: transform 0.3s, opacity 0.3s, background 0.2s;
+}
+
+/* Slides away while the bottom of the footer is on screen */
+.back-to-designs.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(150%);
 }
 
 .back-to-designs:hover {

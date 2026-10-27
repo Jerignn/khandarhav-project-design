@@ -14,6 +14,8 @@ const OPTIONS = [
     pitch:
       'Feels like a neighbor you trust. Serif type, limestone tones, arched photos and service tiles whose photos slide on their own.',
     img: '/img/parallax.jpg',
+    swatches: ['#f4efe6', '#24211d', '#6b7a5e', '#ba4426'],
+    typeName: 'Open Sans',
   },
   {
     to: '/design-2',
@@ -24,6 +26,8 @@ const OPTIONS = [
     pitch:
       'Feels like a smart thermostat. A live temperature dial in the hero, glowing control-panel cards and service tiles that slide through K&R’s photos.',
     img: '/img/hero.jpg',
+    swatches: ['#0b121b', '#142030', '#4fb3d9', '#ba4426'],
+    typeName: 'Space Grotesk',
   },
 ]
 
@@ -31,9 +35,13 @@ export default function Overview() {
   return (
     <div className="ov">
       <header className="ov-head">
+        {/* Warm-to-cool glow behind the header, echoing the two designs */}
+        <div className="ov-head-glow" aria-hidden="true" />
         <img src="/img/logo-white.png" alt="K&R Heating & Cooling" />
         <div>
-          <p>K&amp;R Heating &amp; Cooling · Homepage concepts</p>
+          <p>
+            K&amp;R Heating &amp; Cooling · Homepage concepts <span className="ov-pill">2 options</span>
+          </p>
           <h1>
             Hot summers. Cold snaps.
             <br />
@@ -60,6 +68,17 @@ export default function Overview() {
               <span className="ov-mood">{option.mood}</span>
               <h2>{option.name}</h2>
               <p>{option.pitch}</p>
+              {/* A quick preview of each design's palette and typeface */}
+              <div className="ov-specimen" aria-hidden="true">
+                <span className="ov-swatches">
+                  {option.swatches.map((c) => (
+                    <i key={c} style={{ background: c }} />
+                  ))}
+                </span>
+                <span className="ov-type">
+                  <b>Aa</b> {option.typeName}
+                </span>
+              </div>
               <span className="ov-cta">
                 {option.label} <Arrow />
               </span>
@@ -69,6 +88,7 @@ export default function Overview() {
       </div>
 
       <section className="ov-closing">
+        <span className="ov-closing-mark" aria-hidden="true">K&amp;R</span>
         <div className="ov-closing-inner">
           <div>
             <p className="ov-eyebrow">Same team behind both</p>

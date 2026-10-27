@@ -100,8 +100,16 @@
   }
 }
 
-/* Buttons */
+/* Buttons
+   Every button lifts on hover and presses in on click. On top of that:
+   - primary (rust): a light sweep runs across it, with a soft glow
+   - ghost (outline): fills with blue from the left, and corner brackets snap in like a targeting frame
+   - light (white): fills with dark from the left
+   The arrow slides out to the right and comes back in from the left. */
 .d2-btn {
+  position: relative;
+  isolation: isolate; /* keeps the sweep/fill layers behind the text */
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -115,37 +123,143 @@
   color: #fff;
   background: none;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+  transition:
+    background 0.25s,
+    border-color 0.25s,
+    color 0.25s,
+    box-shadow 0.3s,
+    transform 0.2s cubic-bezier(0.3, 1.6, 0.5, 1);
 }
 
+.d2-btn:hover {
+  transform: translateY(-2px);
+}
+
+.d2-btn:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 0.08s;
+}
+
+/* The moving layer inside every button (sweep or fill, depending on the type) */
+.d2-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Primary: light sweep */
 .d2-btn-primary {
   background: var(--accent);
-  box-shadow: 0 0 0 0 rgba(186, 68, 38, 0);
+}
+
+.d2-btn-primary::before {
+  background: linear-gradient(110deg, transparent 25%, rgba(255, 255, 255, 0.38) 50%, transparent 75%);
+  transform: translateX(-120%);
 }
 
 .d2-btn-primary:hover {
   background: var(--accent-hover);
-  box-shadow: 0 8px 24px -6px rgba(209, 79, 46, 0.6);
+  box-shadow:
+    0 10px 28px -8px rgba(209, 79, 46, 0.75),
+    0 0 0 4px rgba(209, 79, 46, 0.16);
 }
 
+/* Only animate on the way in, so the sweep doesn't run backwards when the mouse leaves */
+.d2-btn-primary:hover::before {
+  transform: translateX(120%);
+  transition: transform 0.75s ease;
+}
+
+/* The main button at the top of each page sweeps by itself every few seconds */
+.d2-hero .d2-actions .d2-btn-primary::before {
+  animation: d2-sweep 5s ease-in-out 1.5s infinite;
+}
+
+.d2-hero .d2-actions .d2-btn-primary:hover::before {
+  animation: none;
+}
+
+@keyframes d2-sweep {
+  0%,
+  80% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+/* Ghost: blue fill from the left + corner brackets */
 .d2-btn-ghost {
   border-color: var(--line-strong);
   background: rgba(255, 255, 255, 0.02);
 }
 
-.d2-btn-ghost:hover {
-  border-color: var(--cool);
-  color: var(--cool);
+.d2-btn-ghost::before {
+  background: rgba(79, 179, 217, 0.13);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.6, 0, 0.2, 1);
 }
 
+/* Four little L-shaped corners, drawn with gradients */
+.d2-btn-ghost::after {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  pointer-events: none;
+  --c: var(--cool);
+  background:
+    linear-gradient(var(--c), var(--c)) top left / 8px 2px,
+    linear-gradient(var(--c), var(--c)) top left / 2px 8px,
+    linear-gradient(var(--c), var(--c)) top right / 8px 2px,
+    linear-gradient(var(--c), var(--c)) top right / 2px 8px,
+    linear-gradient(var(--c), var(--c)) bottom left / 8px 2px,
+    linear-gradient(var(--c), var(--c)) bottom left / 2px 8px,
+    linear-gradient(var(--c), var(--c)) bottom right / 8px 2px,
+    linear-gradient(var(--c), var(--c)) bottom right / 2px 8px;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: inset 0.3s cubic-bezier(0.3, 1.6, 0.5, 1), opacity 0.2s;
+}
+
+.d2-btn-ghost:hover {
+  border-color: var(--cool);
+  color: #fff;
+  box-shadow: 0 10px 26px -12px rgba(79, 179, 217, 0.6);
+}
+
+.d2-btn-ghost:hover::before {
+  transform: scaleX(1);
+}
+
+.d2-btn-ghost:hover::after {
+  inset: 3px;
+  opacity: 1;
+}
+
+/* Light: dark fill from the left */
 .d2-btn-light {
   background: #fff;
   color: var(--ink);
 }
 
-.d2-btn-light:hover {
+.d2-btn-light::before {
   background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.6, 0, 0.2, 1);
+}
+
+.d2-btn-light:hover {
   color: #fff;
+  box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.5);
+}
+
+.d2-btn-light:hover::before {
+  transform: scaleX(1);
 }
 
 .d2-arrow {
@@ -153,8 +267,28 @@
   transition: transform 0.2s;
 }
 
-.d2-btn:hover .d2-arrow,
-.d2 a:hover > .d2-arrow {
+/* Arrow inside a button: slides out right, comes back in from the left */
+.d2-btn:hover .d2-arrow {
+  animation: d2-arrow-loop 0.5s ease;
+}
+
+@keyframes d2-arrow-loop {
+  45% {
+    transform: translateX(14px);
+    opacity: 0;
+  }
+  46% {
+    transform: translateX(-14px);
+    opacity: 0;
+  }
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* Arrow inside a plain link: a small nudge */
+.d2 a:not(.d2-btn):hover > .d2-arrow {
   transform: translateX(4px);
 }
 
@@ -1337,9 +1471,19 @@
   }
 
   .d2-service-grid,
-  .d2-form,
-  .d2-footer-grid {
+  .d2-form {
     grid-template-columns: 1fr;
+  }
+
+  /* Footer: brand full width, Services + Company side by side, contact below */
+  .d2-footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 1.25rem;
+  }
+
+  .d2-footer-grid > :first-child,
+  .d2-footer-grid > :last-child {
+    grid-column: 1 / -1;
   }
 
   .d2-badges ul {
@@ -1355,8 +1499,42 @@
   }
 }
 
-/* "Reduce motion": stop the decorative animations in Design 2 */
+/* "Reduce motion" (Windows "Animation effects" off): stop the animations that run on their own.
+   base.css also turns off every transition on the site in this mode. Button hover and press
+   effects only run when someone points at or presses a button, so Design 2 turns those back on. */
 @media (prefers-reduced-motion: reduce) {
+  .d2 .d2-hero .d2-actions .d2-btn-primary::before {
+    animation: none !important;
+  }
+
+  .d2 .d2-btn {
+    transition:
+      background 0.25s,
+      border-color 0.25s,
+      color 0.25s,
+      box-shadow 0.3s,
+      transform 0.2s cubic-bezier(0.3, 1.6, 0.5, 1) !important;
+  }
+
+  .d2 .d2-btn-ghost::before,
+  .d2 .d2-btn-light::before {
+    transition: transform 0.35s cubic-bezier(0.6, 0, 0.2, 1) !important;
+  }
+
+  .d2 .d2-btn-primary:hover::before {
+    transition: transform 0.75s ease !important;
+  }
+
+  .d2 .d2-btn-ghost::after {
+    transition:
+      inset 0.3s cubic-bezier(0.3, 1.6, 0.5, 1),
+      opacity 0.2s !important;
+  }
+
+  .d2 .d2-btn:hover .d2-arrow {
+    animation: d2-arrow-loop 0.5s ease !important;
+  }
+
   .d2-live,
   .d2-carousel-bars .is-active::after {
     animation: none;
