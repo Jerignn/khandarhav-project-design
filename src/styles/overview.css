@@ -1,0 +1,258 @@
+/* Overview — split-screen chooser */
+.ov {
+  min-height: 100vh;
+  background: #111;
+  color: #fff;
+}
+
+.ov-head {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 2rem clamp(1.25rem, 4vw, 3.5rem);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ov-head img {
+  height: 58px;
+  width: auto;
+}
+
+.ov-head p {
+  margin: 0 0 0.3rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9a9a9a;
+}
+
+.ov-head h1 {
+  margin: 0;
+  font: 500 clamp(1.4rem, 2.6vw, 2.1rem) / 1.2 'Fraunces', Georgia, serif;
+}
+
+.ov-head em,
+.ov-closing em {
+  color: var(--rust);
+}
+
+/* Panels have a fixed size — they never grow or shift */
+.ov-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 620px;
+}
+
+.ov-panel {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* The image is the only thing that animates */
+.ov-panel-img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1);
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.9s;
+}
+
+.ov-panel:hover .ov-panel-img,
+.ov-panel:focus-visible .ov-panel-img {
+  transform: scale(1.08);
+}
+
+.ov-panel-shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+/* Panel 1 previews Design 1: limestone + serif */
+.ov-panel-01 {
+  color: #24211d;
+}
+
+.ov-panel-01 .ov-panel-shade {
+  background: linear-gradient(180deg, rgba(244, 239, 230, 0.15) 0%, rgba(244, 239, 230, 0.9) 55%, #f4efe6 80%);
+}
+
+.ov-panel-01 h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* Panel 2 previews Design 2: navy + blueprint grid + mono */
+.ov-panel-02 {
+  color: #f2f5f8;
+}
+
+.ov-panel-02 .ov-panel-img {
+  filter: grayscale(0.6);
+}
+
+.ov-panel-02:hover .ov-panel-img {
+  filter: grayscale(0);
+}
+
+.ov-panel-02 .ov-panel-shade {
+  background:
+    linear-gradient(rgba(79, 179, 217, 0.1) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(90deg, rgba(79, 179, 217, 0.1) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(180deg, rgba(14, 22, 33, 0.45) 0%, rgba(14, 22, 33, 0.92) 55%, #0e1621 80%);
+}
+
+.ov-panel-02 h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.ov-panel-02 .ov-mood {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.ov-n {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  font: 700 clamp(5rem, 12vw, 10rem) / 1 'Space Grotesk', sans-serif;
+  opacity: 0.18;
+}
+
+.ov-panel-01 .ov-n {
+  color: #fff;
+  opacity: 0.6;
+}
+
+.ov-panel-body {
+  max-width: 460px;
+}
+
+.ov-mood {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.ov-panel h2 {
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1.05;
+  margin: 0.5rem 0 1rem;
+}
+
+.ov-panel p {
+  opacity: 0.85;
+  margin-bottom: 1.75rem;
+}
+
+.ov-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.4rem;
+  background: var(--rust);
+  color: #fff;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.ov-panel:hover .ov-cta {
+  background: var(--rust-dark);
+}
+
+/* Closing section */
+.ov-closing {
+  padding: clamp(4rem, 8vw, 6.5rem) clamp(1.25rem, 4vw, 3.5rem);
+  background: #161616;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ov-closing-inner {
+  max-width: 1180px;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+
+.ov-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #9a9a9a;
+}
+
+.ov-closing h2 {
+  font: 500 clamp(2rem, 4vw, 3rem) / 1.1 'Fraunces', Georgia, serif;
+  margin-bottom: 1.25rem;
+}
+
+.ov-closing p {
+  color: #c4c0b9;
+  max-width: 60ch;
+}
+
+.ov-note {
+  padding: 1rem 1.25rem;
+  border-left: 3px solid var(--rust);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.9rem;
+}
+
+.ov-note a {
+  color: #fff;
+  font-weight: 700;
+}
+
+.ov-promises {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.ov-promises li {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  font-weight: 500;
+}
+
+.ov-promises span {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--rust);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 800px) {
+  .ov-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .ov-split,
+  .ov-closing-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .ov-panel {
+    min-height: 520px;
+  }
+}

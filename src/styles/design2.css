@@ -1,0 +1,1901 @@
+/* Design 2 — Comfort Control: modern, technical, interactive.
+   Everything here is scoped to Design 2 (".d2" or "d2-" classes) and does not use
+   any of the shared classes from base.css, so Design 1 and Design 2 never affect each other.
+
+   Colors: cool blue = system / info, rust = actions (K&R's brand color), green = status OK. */
+.d2 {
+  --bg: #0b121b;
+  --bg-2: #0f1823;
+  --panel: #142030;
+  --panel-2: #1a293b;
+  --ink: #0b121b;
+  --text: #dfe6ee;
+  --dim: #8a9aac;
+  --line: rgba(160, 190, 220, 0.13);
+  --line-strong: rgba(160, 190, 220, 0.28);
+  --cool: #4fb3d9;
+  --accent: #ba4426;
+  --accent-hover: #d14f2e;
+  --ok: #6ee7a0;
+  --radius: 14px;
+  /* Same font as kandrhvac.com: Open Sans everywhere — 800 + capitals for headings,
+     buttons and menu, 400 for body text */
+  --font: 'Open Sans', system-ui, sans-serif;
+  --mono: var(--font);
+  --display: var(--font);
+  min-height: 100vh;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.d2 ::selection {
+  background: var(--cool);
+  color: var(--ink);
+}
+
+.d2-container {
+  width: min(1200px, 100% - 2.5rem);
+  margin-inline: auto;
+}
+
+.d2 h1,
+.d2 h2,
+.d2 h3 {
+  font-family: var(--display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  line-height: 1.1;
+  color: #fff;
+}
+
+.d2 h2 {
+  font-size: clamp(1.75rem, 3.4vw, 2.6rem);
+  margin-bottom: 1rem;
+}
+
+.d2-mono {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--cool);
+}
+
+.d2 :focus-visible {
+  outline: 2px solid var(--cool);
+  outline-offset: 3px;
+}
+
+.d2-section {
+  padding: clamp(4rem, 9vw, 7rem) 0;
+}
+
+.d2-section-head {
+  max-width: 640px;
+  margin-bottom: 3rem;
+}
+
+/* Status lights */
+.d2-live,
+.d2-led {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 10px var(--ok);
+}
+
+.d2-live {
+  animation: d2-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes d2-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* Buttons */
+.d2-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.4rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font: 800 0.88rem / 1.2 var(--font);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #fff;
+  background: none;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.d2-btn-primary {
+  background: var(--accent);
+  box-shadow: 0 0 0 0 rgba(186, 68, 38, 0);
+}
+
+.d2-btn-primary:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 8px 24px -6px rgba(209, 79, 46, 0.6);
+}
+
+.d2-btn-ghost {
+  border-color: var(--line-strong);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.d2-btn-ghost:hover {
+  border-color: var(--cool);
+  color: var(--cool);
+}
+
+.d2-btn-light {
+  background: #fff;
+  color: var(--ink);
+}
+
+.d2-btn-light:hover {
+  background: var(--ink);
+  color: #fff;
+}
+
+.d2-arrow {
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.d2-btn:hover .d2-arrow,
+.d2 a:hover > .d2-arrow {
+  transform: translateX(4px);
+}
+
+/* Header */
+.d2-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(11, 18, 27, 0.86);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.d2-topbar {
+  border-bottom: 1px solid var(--line);
+  color: var(--dim);
+}
+
+.d2-topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.45rem 0;
+}
+
+.d2-topbar-inner > span {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.d2-topbar-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.d2-topbar a {
+  transition: color 0.2s;
+}
+
+.d2-topbar a:hover {
+  color: var(--cool);
+}
+
+.d2-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 76px;
+}
+
+.d2-logo img {
+  height: 50px;
+  width: auto;
+}
+
+.d2-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.d2-nav .d2-btn {
+  padding: 0.65rem 1.1rem;
+  font-size: 0.85rem;
+}
+
+/* Main menu (NavMenu.jsx) */
+.d2-menu {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.d2-menu li {
+  position: relative;
+}
+
+.d2-menu > li > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.d2-menu > li > a:hover {
+  color: var(--cool);
+}
+
+.d2-caret {
+  font-size: 0.7em;
+  opacity: 0.6;
+}
+
+/* Dropdowns are hidden until you hover the menu item (or tab into it) */
+.d2-dropdown {
+  position: absolute;
+  top: 100%;
+  left: -1rem;
+  z-index: 60;
+  min-width: 220px;
+  margin: 0;
+  padding: 0.5rem;
+  list-style: none;
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+}
+
+/* The services dropdown shows its 8 items in two columns */
+.d2-dropdown.is-wide {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+}
+
+.d2-has-dropdown:hover .d2-dropdown,
+.d2-has-dropdown:focus-within .d2-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.d2-dropdown a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.d2-dropdown a:hover {
+  background: var(--panel-2);
+  color: #fff;
+}
+
+.d2-dropdown .d2-mono {
+  font-size: 0.7rem;
+  color: var(--dim);
+}
+
+.d2-dropdown a:hover .d2-mono {
+  color: var(--cool);
+}
+
+.d2-ext {
+  margin-left: auto;
+  color: var(--dim);
+}
+
+.d2-burger {
+  display: none;
+  background: none;
+  border: 0;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.d2-burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  margin: 6px 0;
+  background: #fff;
+  transition: transform 0.2s;
+}
+
+.d2-burger.is-open span:first-child {
+  transform: translateY(4px) rotate(45deg);
+}
+
+.d2-burger.is-open span:last-child {
+  transform: translateY(-4px) rotate(-45deg);
+}
+
+/* Hero */
+.d2-hero {
+  --mode: var(--cool);
+  position: relative;
+  padding: clamp(3rem, 8vw, 6rem) 0;
+  background:
+    linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 40px 40px,
+    linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 40px 40px;
+  overflow: hidden;
+}
+
+/* Fade the grid out toward the bottom so the hero blends into the next section */
+.d2-hero::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 40%;
+  background: linear-gradient(transparent, var(--bg));
+  pointer-events: none;
+}
+
+.d2-hero.mode-heat {
+  --mode: var(--accent);
+}
+
+.d2-hero.mode-hold {
+  --mode: #9fb1c4;
+}
+
+/* Ambient glow: cool blue, or warm on heating service pages */
+.d2-hero::before {
+  content: '';
+  position: absolute;
+  right: -10%;
+  top: -20%;
+  width: 70%;
+  height: 140%;
+  background: radial-gradient(circle, var(--mode), transparent 60%);
+  opacity: 0.18;
+  transition: background 0.5s;
+  pointer-events: none;
+}
+
+.d2-hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.d2-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  margin: 1rem 0 1.5rem;
+}
+
+.d2-lead {
+  max-width: 48ch;
+  font-size: 1.08rem;
+  color: var(--dim);
+}
+
+.d2-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Hero photo slider, in the same frame as the other photos */
+.d2-hero-photo {
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.7);
+}
+
+.d2-hero-photo .d2-carousel,
+.d2-svc-photo .d2-carousel {
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+}
+
+/* Photo slider (ImageCarousel.jsx) */
+.d2-carousel {
+  position: relative;
+  overflow: hidden;
+  background: var(--panel-2);
+}
+
+/* Every photo is stacked in the same spot; only the visible one has opacity 1 */
+.d2-carousel-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.06);
+  transition: opacity 0.7s ease, transform 3s ease;
+}
+
+.d2-carousel-img.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Darken the top edge so the bars and counter stay readable on bright photos */
+.d2-carousel::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 70px;
+  background: linear-gradient(rgba(11, 18, 27, 0.6), transparent);
+  pointer-events: none;
+}
+
+.d2-carousel-bars {
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  left: 12px;
+  right: 76px;
+  display: flex;
+  gap: 4px;
+}
+
+.d2-carousel-bars span {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.d2-carousel-bars span::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.d2-carousel-bars .is-done::after {
+  transform: scaleX(1);
+}
+
+.d2-carousel-bars .is-active::after {
+  animation: d2-fill var(--slide-time) linear forwards;
+}
+
+@keyframes d2-fill {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.d2-carousel-count {
+  position: absolute;
+  z-index: 1;
+  top: 6px;
+  right: 12px;
+  font: 500 0.7rem var(--mono);
+  color: #fff;
+}
+
+/* Offer card */
+.d2-plan-wrap {
+  padding-top: 0;
+}
+
+.d2-plan {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2.5rem;
+  align-items: center;
+  padding: clamp(2rem, 5vw, 3.5rem);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.2), transparent 40%),
+    linear-gradient(120deg, #a53a1f, var(--accent) 55%, #d0582f);
+  border-radius: 20px;
+  color: #fff;
+}
+
+/* Faint grid on the card, the same pattern as the hero */
+.d2-plan::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px) 0 0 / 32px 32px;
+  pointer-events: none;
+}
+
+.d2-plan > * {
+  position: relative;
+}
+
+.d2-plan .d2-mono {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.d2-plan h2 {
+  margin: 0.75rem 0;
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+}
+
+.d2-plan h2 span {
+  display: block;
+  font-size: 2.2em;
+  line-height: 1;
+}
+
+.d2-plan sup {
+  font-size: 0.5em;
+}
+
+.d2-plan small {
+  opacity: 0.8;
+}
+
+/* Services */
+.d2-services {
+  background: var(--bg-2);
+  border-block: 1px solid var(--line);
+}
+
+.d2-service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.d2-service {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+
+.d2-service:hover {
+  transform: translateY(-6px);
+  border-color: var(--cool);
+  box-shadow: 0 20px 40px -12px rgba(79, 179, 217, 0.35);
+}
+
+.d2-service-img {
+  position: relative;
+  aspect-ratio: 1 / 1;
+}
+
+.d2-service-img .d2-carousel {
+  height: 100%;
+}
+
+/* "SVC-01" chip at the bottom of the photo */
+.d2-code {
+  position: absolute;
+  z-index: 1;
+  bottom: 12px;
+  left: 12px;
+  padding: 0.25rem 0.55rem;
+  border-radius: 6px;
+  background: rgba(11, 18, 27, 0.8);
+  color: #fff;
+}
+
+.d2-service-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.1rem;
+  border-top: 1px solid var(--line);
+  transition: background 0.25s;
+}
+
+.d2-service h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.d2-service-go {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  transition: transform 0.25s;
+}
+
+.d2-service:hover .d2-service-label {
+  background: var(--panel-2);
+}
+
+.d2-service:hover .d2-service-go {
+  transform: translateX(4px);
+}
+
+/* Why choose us */
+.d2-why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+
+.d2-why-photo {
+  position: relative;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--panel);
+}
+
+.d2-why-photo img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.d2-why-photo figcaption {
+  position: absolute;
+  z-index: 1;
+  left: 26px;
+  bottom: 26px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  background: rgba(11, 18, 27, 0.85);
+  color: #fff;
+}
+
+.d2-why-text {
+  color: var(--dim);
+}
+
+.d2-why-list {
+  list-style: none;
+  margin: 1.75rem 0 2rem;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.d2-why-list li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.95rem 1.25rem;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  color: #fff;
+}
+
+.d2-why-list li:last-child {
+  border-bottom: 0;
+}
+
+/* Green check box at the end of a list row */
+.d2-tick {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin-left: auto;
+  border-radius: 6px;
+  background: rgba(110, 231, 160, 0.14);
+  color: var(--ok);
+  font-size: 0.75rem;
+}
+
+/* Review */
+.d2-review {
+  background: var(--bg-2);
+  border-top: 1px solid var(--line);
+}
+
+.d2-review-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 3rem;
+}
+
+.d2-stars {
+  margin: 1rem 0 0.5rem;
+  font-size: 1.6rem;
+  color: #f6c453;
+  letter-spacing: 0.1em;
+}
+
+.d2-review-card {
+  position: relative;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+/* Big quote mark in the corner */
+.d2-review-card::before {
+  content: '“';
+  position: absolute;
+  top: -0.15em;
+  right: 0.25em;
+  font: 800 7rem / 1 Georgia, serif;
+  color: var(--cool);
+  opacity: 0.18;
+}
+
+.d2-review blockquote {
+  position: relative;
+  margin: 0;
+  font: 600 clamp(1.25rem, 2.4vw, 1.75rem) / 1.45 var(--display);
+  color: #fff;
+  letter-spacing: 0;
+}
+
+.d2-review-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+/* Contact */
+.d2-contact {
+  border-top: 1px solid var(--line);
+}
+
+.d2-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: clamp(2rem, 6vw, 5rem);
+}
+
+.d2-specs {
+  margin: 2rem 0 0;
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.d2-specs div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: var(--panel);
+}
+
+.d2-specs dt {
+  color: var(--dim);
+}
+
+.d2-specs dd {
+  margin: 0;
+  font: 800 1.05rem var(--display);
+  color: #fff;
+}
+
+.d2-specs a:hover {
+  color: var(--cool);
+}
+
+.d2-ticket {
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.7);
+}
+
+.d2-ticket-head {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.9rem 1.5rem;
+  border-bottom: 1px dashed var(--line-strong);
+  background: var(--panel-2);
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Contact form (ContactForm.jsx) */
+.d2-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.d2-field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.d2-field .d2-mono {
+  font-size: 0.7rem;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.d2-field:focus-within .d2-mono {
+  color: var(--cool);
+}
+
+.d2-field input,
+.d2-field select,
+.d2-field textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font: inherit;
+  font-size: 0.95rem;
+  color: #fff;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.d2-field textarea {
+  resize: vertical;
+}
+
+.d2-field input::placeholder,
+.d2-field textarea::placeholder {
+  color: #5d6d80;
+}
+
+.d2-field select option {
+  background: var(--panel);
+  color: #fff;
+}
+
+.d2-field input:focus,
+.d2-field select:focus,
+.d2-field textarea:focus {
+  outline: none;
+  border-color: var(--cool);
+  box-shadow: 0 0 0 3px rgba(79, 179, 217, 0.18);
+}
+
+.d2-form .is-full {
+  grid-column: 1 / -1;
+}
+
+.d2-form-done {
+  padding: 2rem 1.5rem;
+}
+
+.d2-form-done .d2-mono {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--ok);
+}
+
+.d2-form-done h3 {
+  font-size: 1.5rem;
+  margin: 1rem 0 0.75rem;
+}
+
+.d2-form-done p:not(.d2-mono) {
+  color: var(--dim);
+}
+
+.d2-form-done a {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Footer (Footer.jsx) */
+.d2-footer {
+  background: #070c13;
+  border-top: 1px solid var(--line);
+  color: var(--dim);
+  font-size: 0.92rem;
+}
+
+.d2-badges {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.d2-badges p {
+  margin: 0;
+}
+
+.d2-badges ul {
+  flex: 1 1 560px;
+  max-width: 760px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The badges are full-color logos, so each sits on a light tile */
+.d2-badges li {
+  display: grid;
+  place-items: center;
+  height: 76px;
+  padding: 0.6rem 1.1rem;
+  background: #eef2f6;
+  border-radius: 12px;
+  transition: transform 0.2s;
+}
+
+.d2-badges li:hover {
+  transform: translateY(-3px);
+}
+
+.d2-badges img {
+  height: 56px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.d2-footer-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1.1fr 0.8fr 1fr;
+  gap: 2.5rem;
+  padding: 3.5rem 0;
+}
+
+.d2-footer-grid > div > .d2-mono {
+  margin-bottom: 1rem;
+}
+
+.d2-footer-brand img {
+  height: 54px;
+  width: auto;
+  margin-bottom: 1.25rem;
+}
+
+.d2-footer-brand p {
+  max-width: 32ch;
+}
+
+.d2-footer-brand .d2-mono {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--ok);
+}
+
+.d2-footer-links {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.d2-footer a {
+  transition: color 0.2s;
+}
+
+.d2-footer-links a:hover,
+.d2-footer-bottom a:hover {
+  color: var(--cool);
+}
+
+.d2-footer-phone {
+  display: block;
+  font: 800 1.5rem var(--display);
+  color: #fff;
+  letter-spacing: 0;
+}
+
+.d2-footer-phone:hover {
+  color: var(--cool);
+}
+
+.d2-footer-city {
+  margin: 0.25rem 0 1.25rem;
+}
+
+.d2-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--line);
+  color: var(--dim);
+}
+
+.d2-footer-bottom a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Service pages */
+.d2-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+  color: var(--dim);
+}
+
+.d2-crumbs a:hover {
+  color: var(--cool);
+}
+
+.d2-crumbs [aria-current] {
+  color: #fff;
+}
+
+.d2-svc-hero .d2-container {
+  position: relative;
+  z-index: 1;
+}
+
+.d2-svc-overview .d2-why-grid {
+  align-items: start;
+}
+
+.d2-svc-first {
+  margin: 1rem 0 1.25rem;
+  font: 600 clamp(1.25rem, 2.3vw, 1.6rem) / 1.4 var(--display);
+  color: #fff;
+  letter-spacing: 0;
+}
+
+.d2-svc-overview .d2-btn {
+  margin-top: 0.5rem;
+}
+
+.d2-svc-overview .d2-why-list {
+  margin: 0;
+}
+
+.d2-svc-stat {
+  margin-bottom: 1rem;
+  padding: 1.5rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.d2-svc-stat strong {
+  display: block;
+  margin: 0.25rem 0;
+  font: 800 clamp(3rem, 7vw, 4.5rem) / 1 var(--display);
+  color: var(--accent-hover);
+  letter-spacing: -0.02em;
+}
+
+.d2-svc-stat p {
+  margin: 0;
+  color: var(--dim);
+}
+
+.d2-svc-panels {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.d2-svc-panel {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.d2-svc-panel h3 {
+  font-size: 1.5rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.d2-svc-lead {
+  color: var(--dim);
+}
+
+.d2-svc-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.d2-svc-rows li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line);
+  font-weight: 500;
+  color: #fff;
+}
+
+.d2-svc-rows .d2-mono {
+  color: var(--dim);
+}
+
+.d2-svc-rows small {
+  display: block;
+  font-weight: 400;
+  font-size: 0.88rem;
+  color: var(--dim);
+}
+
+/* The long maintenance checklist spans the full width in two columns */
+.d2-svc-panel.is-wide {
+  grid-column: 1 / -1;
+}
+
+.d2-svc-panel.is-wide .d2-svc-rows {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 2rem;
+}
+
+.d2-svc-promise-text {
+  margin: 0.75rem 0 0;
+  font: 600 clamp(1.15rem, 2.2vw, 1.5rem) / 1.45 var(--display);
+  max-width: 60ch;
+}
+
+.d2-svc-promise-wrap {
+  padding-top: clamp(4rem, 9vw, 7rem);
+}
+
+.d2-svc-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.75rem;
+}
+
+.d2-svc-links a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: #fff;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.d2-svc-links a:hover {
+  background: var(--panel-2);
+  border-color: var(--cool);
+}
+
+.d2-svc-links .d2-mono {
+  white-space: nowrap;
+}
+
+.d2-svc-links .d2-arrow {
+  margin-left: auto;
+  color: var(--cool);
+}
+
+/* Responsive */
+@media (max-width: 1080px) {
+  .d2-burger {
+    display: block;
+  }
+
+  .d2-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding: 1.25rem;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .d2-nav.is-open {
+    display: flex;
+  }
+
+  /* On small screens the menu is a vertical list and the dropdowns are always shown, indented */
+  .d2-menu {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .d2-menu > li > a {
+    width: 100%;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .d2-caret {
+    display: none;
+  }
+
+  .d2-dropdown,
+  .d2-dropdown.is-wide {
+    position: static;
+    display: block;
+    min-width: 0;
+    padding: 0.4rem 0 0.6rem 0.75rem;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .d2-dropdown a {
+    padding: 0.4rem 0;
+    color: var(--dim);
+  }
+
+  .d2-dropdown a:hover {
+    background: none;
+  }
+
+  .d2-footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 1000px) {
+  .d2-service-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .d2-plan {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .d2-plan .d2-btn {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 900px) {
+  .d2-hero-grid,
+  .d2-why-grid,
+  .d2-review-grid,
+  .d2-contact-grid,
+  .d2-svc-panels,
+  .d2-svc-panel.is-wide .d2-svc-rows {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .d2-topbar-inner > span {
+    display: none;
+  }
+
+  .d2-service-grid,
+  .d2-form,
+  .d2-footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .d2-badges ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .d2-badges li {
+    height: 64px;
+  }
+
+  .d2-badges img {
+    height: 44px;
+  }
+}
+
+/* "Reduce motion": stop the decorative animations in Design 2 */
+@media (prefers-reduced-motion: reduce) {
+  .d2-live,
+  .d2-carousel-bars .is-active::after {
+    animation: none;
+  }
+
+  .d2-carousel-bars .is-active::after {
+    transform: scaleX(1);
+  }
+}
+
+/* "Other services" sits right under the promise card, so it doesn't need its own top gap */
+.d2-svc-more {
+  padding-top: 0;
+}
+
+/* Blurred photo behind a section. Add the "d2-photo-bg" class and set the photo with
+   style={{ '--photo': 'url(...)' }}. A dark wash on top keeps the text readable.
+   Used on every other section so the pages don't look plain, without getting busy.
+
+   The ":is(.d2-photo-bg, #d2-id)" part is on purpose: it gives these rules the strength of an id,
+   so another stylesheet's "#services::before" rule can't paint its own photo over ours.
+   (#d2-id doesn't exist — it's only there for that strength.) */
+.d2 :is(.d2-photo-bg, #d2-id) {
+  position: relative;
+  isolation: isolate; /* keeps the photo layers behind this section's content */
+  overflow: hidden;
+}
+
+.d2 :is(.d2-photo-bg, #d2-id)::before {
+  content: '';
+  position: absolute;
+  inset: -40px; /* bigger than the section so the blur has no soft edges */
+  z-index: -2;
+  background: var(--photo) center / cover no-repeat;
+  filter: blur(var(--photo-blur, 8px)) saturate(1.15); /* a section can set --photo-blur for a sharper photo */
+  transform: none;
+  opacity: 0.65;
+}
+
+.d2 :is(.d2-photo-bg, #d2-id)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(11, 18, 27, 0.9), rgba(11, 18, 27, 0.55) 50%, rgba(11, 18, 27, 0.9));
+}
+
+/* With its own photo behind it, "Other services" needs its top gap back */
+.d2-svc-more.d2-photo-bg {
+  padding-top: clamp(4rem, 9vw, 7rem);
+}
+
+/* ===== Extra pages: About, Our Work, Promotions, Financing, Careers, Privacy ===== */
+
+/* Page title area: the hero grid, a little shorter than the homepage hero */
+.d2-page-hero {
+  padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(3rem, 7vw, 5rem);
+}
+
+.d2-page-hero .d2-container {
+  position: relative;
+  z-index: 1;
+}
+
+.d2-page-hero h1 {
+  margin: 0.75rem 0 1rem;
+}
+
+.d2-page-hero .d2-lead {
+  max-width: 62ch;
+}
+
+.d2-plan-text {
+  max-width: 60ch;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* About: every customer review */
+.d2-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.d2-review-card.is-small {
+  margin: 0;
+  padding: 1.5rem;
+  background: rgba(20, 32, 48, 0.88);
+  backdrop-filter: blur(6px);
+}
+
+.d2-review-card.is-small::before {
+  font-size: 4.5rem;
+}
+
+.d2-review-card.is-small blockquote {
+  margin: 0 0 1.25rem;
+  font: 400 0.98rem / 1.65 var(--font);
+  color: var(--text);
+}
+
+/* Our Work: photo grid */
+.d2-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The first photo is shown twice as big */
+.d2-gallery li:first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.d2-gallery button {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  cursor: zoom-in;
+  transition: border-color 0.25s;
+}
+
+.d2-gallery img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.d2-gallery button:hover {
+  border-color: var(--cool);
+}
+
+.d2-gallery button:hover img {
+  transform: scale(1.05);
+}
+
+/* Caption bar along the bottom of each photo */
+.d2-gallery-label {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2rem 1rem 0.85rem;
+  background: linear-gradient(transparent, rgba(11, 18, 27, 0.92));
+  color: #fff;
+  font-size: 0.88rem;
+  text-align: left;
+}
+
+.d2-gallery-label .d2-mono {
+  flex-shrink: 0;
+}
+
+/* Big photo view */
+.d2-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 4.5rem 1rem 2rem;
+  background: rgba(5, 9, 14, 0.94);
+  animation: d2-fade 0.2s ease;
+}
+
+@keyframes d2-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.d2-lightbox figure {
+  margin: 0;
+  max-width: min(1100px, 100%);
+}
+
+.d2-lightbox img {
+  max-height: calc(100vh - 10rem);
+  width: auto;
+  margin-inline: auto;
+  border-radius: 12px;
+}
+
+.d2-lightbox figcaption {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  color: #fff;
+}
+
+.d2-lightbox-btn {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--panel);
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.d2-lightbox-btn:hover {
+  border-color: var(--cool);
+  background: var(--panel-2);
+}
+
+.d2-lightbox-btn.is-close {
+  top: 1rem;
+  right: 1rem;
+}
+
+.d2-lightbox-btn.is-prev {
+  left: 1rem;
+  top: 50%;
+}
+
+.d2-lightbox-btn.is-next {
+  right: 1rem;
+  top: 50%;
+}
+
+/* Promotions: tear-off coupons */
+.d2-coupons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.d2-coupon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  overflow: hidden;
+  background: rgba(20, 32, 48, 0.92);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  transition: border-color 0.25s, transform 0.25s;
+}
+
+.d2-coupon:hover {
+  border-color: var(--accent-hover);
+  transform: translateY(-4px);
+}
+
+/* The first offer is the headline deal: shown in the accent color */
+.d2-coupon:first-child {
+  background: linear-gradient(120deg, #a53a1f, var(--accent) 55%, #d0582f);
+  border-color: transparent;
+}
+
+.d2-coupon:first-child .d2-mono,
+.d2-coupon:first-child small {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.d2-coupon:first-child .d2-btn-primary {
+  background: #fff;
+  color: var(--ink);
+}
+
+.d2-coupon-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.d2-coupon-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ok);
+}
+
+.d2-coupon h3 {
+  flex: 1;
+  margin: 1.25rem 0 1.5rem;
+  font-size: 1.45rem;
+}
+
+/* Dashed tear line with two round notches cut into the sides */
+.d2-coupon-foot {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 2px dashed var(--line-strong);
+}
+
+.d2-coupon-foot::before,
+.d2-coupon-foot::after {
+  content: '';
+  position: absolute;
+  top: -12px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+.d2-coupon-foot::before {
+  left: calc(-1.5rem - 12px);
+}
+
+.d2-coupon-foot::after {
+  right: calc(-1.5rem - 12px);
+}
+
+.d2-coupon small {
+  color: var(--dim);
+}
+
+.d2-coupon .d2-btn {
+  padding: 0.7rem 1.1rem;
+}
+
+/* Financing: numbered benefit tiles */
+.d2-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 0 0 2.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.d2-tiles li {
+  display: grid;
+  gap: 1.5rem;
+  align-content: space-between;
+  min-height: 160px;
+  padding: 1.25rem;
+  background: rgba(20, 32, 48, 0.88);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.d2-tiles strong {
+  font-size: 1.05rem;
+  line-height: 1.4;
+  color: #fff;
+}
+
+.d2-tiles-outro {
+  margin-bottom: 1.25rem;
+}
+
+/* Careers */
+.d2-careers-intro {
+  align-items: start;
+}
+
+.d2-careers-intro .d2-why-list {
+  margin-top: 1rem;
+}
+
+/* Resume upload: the real file input sits invisibly on top of the styled box */
+.d2-file {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  background: var(--bg);
+  border: 1px dashed var(--line-strong);
+  border-radius: 10px;
+  transition: border-color 0.2s;
+}
+
+.d2-file:hover,
+.d2-file:focus-within {
+  border-color: var(--cool);
+}
+
+.d2-file input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.d2-file-btn {
+  flex-shrink: 0;
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  background: var(--panel-2);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.d2-file-name {
+  overflow: hidden;
+  color: var(--dim);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Privacy policy: section list on the left that stays on screen, text on the right */
+.d2-legal {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+}
+
+.d2-legal aside {
+  position: sticky;
+  top: 140px;
+  padding: 1.25rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.d2-legal ol {
+  display: grid;
+  gap: 0.25rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.d2-legal ol a {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.45rem 0.5rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.d2-legal ol a:hover {
+  background: var(--panel-2);
+  color: #fff;
+}
+
+.d2-legal ol .d2-mono {
+  color: var(--dim);
+}
+
+.d2-legal-block {
+  padding-bottom: 2.25rem;
+  margin-bottom: 2.25rem;
+  border-bottom: 1px solid var(--line);
+  scroll-margin-top: 140px;
+}
+
+.d2-legal-block:last-child {
+  border-bottom: 0;
+}
+
+.d2-legal-block h2 {
+  margin: 0.5rem 0 1rem;
+  font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+}
+
+.d2-legal-block p {
+  max-width: 72ch;
+  color: var(--dim);
+}
+
+@media (max-width: 900px) {
+  .d2-reviews-grid,
+  .d2-legal {
+    grid-template-columns: 1fr;
+  }
+
+  .d2-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .d2-legal aside {
+    position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .d2-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .d2-gallery li:first-child {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .d2-coupons {
+    grid-template-columns: 1fr;
+  }
+
+  .d2-lightbox-btn.is-prev,
+  .d2-lightbox-btn.is-next {
+    top: auto;
+    bottom: 1rem;
+  }
+}
+
+/* Page title areas on the extra pages: the photo is sharper and shows a little more,
+   with the dark wash heavier on the left where the title sits */
+.d2 :is(.d2-page-hero, #d2-id).d2-photo-bg {
+  --photo-blur: 3px;
+}
+
+.d2 :is(.d2-page-hero, #d2-id).d2-photo-bg::before {
+  opacity: 0.6;
+}
+
+.d2 :is(.d2-page-hero, #d2-id).d2-photo-bg::after {
+  height: auto;
+  background:
+    linear-gradient(90deg, rgba(11, 18, 27, 0.94) 25%, rgba(11, 18, 27, 0.7) 70%, rgba(11, 18, 27, 0.55)),
+    linear-gradient(transparent 60%, var(--bg));
+}
