@@ -62,9 +62,7 @@ export default function ServicePageTwo() {
 
               <figure className="d2-why-photo d2-svc-photo">
                 <ImageCarousel images={service.images} slideTime={3200} />
-                <figcaption className="d2-mono">
-                  <span className="d2-led" /> Status: 24/7 emergency service
-                </figcaption>
+                <figcaption className="d2-mono">Status: 24/7 emergency service</figcaption>
               </figure>
             </div>
           </div>
@@ -120,9 +118,7 @@ export default function ServicePageTwo() {
             <div className="d2-svc-panels">
               {details.sections.map((section, i) => (
                 <article key={section.title} className={section.wide ? 'd2-svc-panel is-wide' : 'd2-svc-panel'}>
-                  <span className="d2-mono">
-                    {code}.{i + 1}
-                  </span>
+                  <span className="d2-mono">{code}.{i + 1}</span>
                   <h3>{section.title}</h3>
                   {section.lead && <p className="d2-svc-lead">{section.lead}</p>}
                   <SectionBody section={section} />

@@ -78,28 +78,6 @@
   margin-bottom: 3rem;
 }
 
-/* Status lights */
-.d2-live,
-.d2-led {
-  display: inline-block;
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--ok);
-  box-shadow: 0 0 10px var(--ok);
-}
-
-.d2-live {
-  animation: d2-pulse 1.8s ease-in-out infinite;
-}
-
-@keyframes d2-pulse {
-  50% {
-    opacity: 0.45;
-  }
-}
-
 /* Buttons
    Every button lifts on hover and presses in on click. On top of that:
    - primary (rust): a light sweep runs across it, with a soft glow
@@ -1055,7 +1033,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  color: var(--ok);
+  color: var(--cool);
 }
 
 .d2-form-done h3 {
@@ -1152,7 +1130,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  color: var(--ok);
+  color: var(--cool);
 }
 
 .d2-footer-links {
@@ -1535,7 +1513,6 @@
     animation: d2-arrow-loop 0.5s ease !important;
   }
 
-  .d2-live,
   .d2-carousel-bars .is-active::after {
     animation: none;
   }
@@ -1832,7 +1809,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--ok);
+  color: var(--cool);
 }
 
 .d2-coupon h3 {

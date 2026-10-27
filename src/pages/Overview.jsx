@@ -116,7 +116,7 @@ export default function Overview() {
         </div>
       </section>
 
-      <SiteFooter theme="dark" />
+      <SiteFooter theme="dark" showBadges={false} />
     </div>
   )
 }

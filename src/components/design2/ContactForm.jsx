@@ -34,9 +34,7 @@ export default function ContactForm({ defaultService = '' }) {
   if (ticket) {
     return (
       <div className="d2-form-done" role="status">
-        <p className="d2-mono">
-          <span className="d2-led" /> Ticket {ticket} · Received
-        </p>
+        <p className="d2-mono">Ticket {ticket} · Received</p>
         <h3>Thanks — we got your request.</h3>
         <p>
           Our team will reach out shortly. For emergencies, call <a href={PHONE_HREF}>{PHONE}</a>.

@@ -33,9 +33,7 @@ export default function Hero() {
         {/* Same framed photo as "Why choose us" and the service pages, with the photos sliding on their own */}
         <figure className="d2-why-photo d2-hero-photo">
           <ImageCarousel images={HERO_IMAGES} slideTime={3500} />
-          <figcaption className="d2-mono">
-            <span className="d2-led" /> Status: 24/7 emergency service
-          </figcaption>
+          <figcaption className="d2-mono">Status: 24/7 emergency service</figcaption>
         </figure>
       </div>
     </section>

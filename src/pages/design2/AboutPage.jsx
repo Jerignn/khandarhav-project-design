@@ -27,9 +27,7 @@ export default function AboutPage() {
         <div className="d2-container d2-why-grid">
           <figure className="d2-why-photo">
             <img src="/img/d2/about.jpg" alt="K&R Heating & Cooling truck outside the K&R office" />
-            <figcaption className="d2-mono">
-              <span className="d2-led" /> Status: locally owned &amp; operated
-            </figcaption>
+            <figcaption className="d2-mono">Status: locally owned &amp; operated</figcaption>
           </figure>
 
           <div>

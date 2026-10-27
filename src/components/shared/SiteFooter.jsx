@@ -4,7 +4,8 @@ import { BADGES, CITY, PHONE, PHONE_HREF, PRIVACY_URL } from '../../data'
 // Footer modeled on kandrhvac.com: badges, location, phone, copyright + privacy policy.
 // `theme` picks the look ("dark" or "light") so each page can match its own palette.
 // `privacyHref` (optional) = our own privacy page; without it the link goes to kandrhvac.com
-export default function SiteFooter({ theme, privacyHref }) {
+// `showBadges` (optional) = set to false to hide the scrolling badge strip
+export default function SiteFooter({ theme, privacyHref, showBadges = true }) {
   // White logo on dark backgrounds, black logo on light backgrounds
   let logo = '/img/logo.png'
   if (theme === 'dark') {
@@ -23,13 +24,15 @@ export default function SiteFooter({ theme, privacyHref }) {
           The track holds the badge list 4 times so it is wider than any screen. CSS slides it
           left by exactly half its width, then starts over — the second half looks identical
           to the first, so the jump back is invisible and the loop looks seamless. */}
-      <div className="sf-badges">
-        <div className="sf-badges-track">
-          {badgeLoop.map((badge, index) => (
-            <img key={index} src={badge.src} alt={index < BADGES.length ? badge.alt : ''} loading="lazy" />
-          ))}
+      {showBadges && (
+        <div className="sf-badges">
+          <div className="sf-badges-track">
+            {badgeLoop.map((badge, index) => (
+              <img key={index} src={badge.src} alt={index < BADGES.length ? badge.alt : ''} loading="lazy" />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="sf-main">
         <img src={logo} alt="K&R Heating & Cooling" className="sf-logo" />

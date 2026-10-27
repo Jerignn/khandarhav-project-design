@@ -28,9 +28,7 @@ export default function Footer() {
               <img src="/img/logo-white.png" alt="K&R Heating & Cooling" />
             </Link>
             <p>Locally owned &amp; operated heating and cooling in {CITY}.</p>
-            <p className="d2-mono">
-              <span className="d2-live" /> 24/7 emergency service
-            </p>
+            <p className="d2-mono">24/7 emergency service</p>
           </div>
 
           <div>

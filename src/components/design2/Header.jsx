@@ -32,7 +32,7 @@ export default function Header() {
       <div className="d2-topbar d2-mono">
         <div className="d2-container d2-topbar-inner">
           <span>
-            <span className="d2-live" /> {CITY} · Locally owned &amp; operated
+            {CITY} · Locally owned &amp; operated
           </span>
           <div className="d2-topbar-links">
             <Link to={HOME + '#contact'}>Email us</Link>

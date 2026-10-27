@@ -37,9 +37,7 @@ export default function FinancingPage() {
 
           <figure className="d2-why-photo">
             <img src="/img/d2/financing.jpg" alt="Customer signing financing paperwork" />
-            <figcaption className="d2-mono">
-              <span className="d2-led" /> Status: financing available
-            </figcaption>
+            <figcaption className="d2-mono">Status: financing available</figcaption>
           </figure>
         </div>
       </section>

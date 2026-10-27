@@ -29,9 +29,7 @@ export default function PromotionsPage() {
               <li key={offer.title} className="d2-coupon">
                 <div className="d2-coupon-top">
                   <span className="d2-mono">OFFER-0{index + 1}</span>
-                  <span className="d2-mono d2-coupon-status">
-                    <span className="d2-led" /> Active
-                  </span>
+                  <span className="d2-mono d2-coupon-status">Active</span>
                 </div>
                 <h3>{offer.title}</h3>
                 <div className="d2-coupon-foot">

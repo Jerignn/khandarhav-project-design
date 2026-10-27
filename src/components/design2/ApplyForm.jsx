@@ -34,9 +34,7 @@ export default function ApplyForm({ positions }) {
   if (sent) {
     return (
       <div className="d2-form-done" role="status">
-        <p className="d2-mono">
-          <span className="d2-led" /> Application received
-        </p>
+        <p className="d2-mono">Application received</p>
         <h3>Thanks for applying!</h3>
         <p>
           If we feel that you are a good fit, one of our managers will be in touch to schedule an interview. Questions?
